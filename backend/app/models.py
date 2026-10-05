@@ -130,3 +130,20 @@ class CaseStudy(Base):
         server_default=func.now(),
         nullable=False
     )
+
+class KnowledgeEntry(Base):
+    """Approved Q&A snippets the chat assistant can draw on."""
+
+    __tablename__ = "knowledge_entries"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, index=True)
+
+    trigger: Mapped[str] = mapped_column(String(150), nullable=False, index=True)
+
+    response: Mapped[str] = mapped_column(Text, nullable=False)
+
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False
+    )

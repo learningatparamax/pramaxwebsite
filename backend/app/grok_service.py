@@ -3,13 +3,14 @@ import os
 from openai import OpenAI
 from sqlalchemy.orm import Session
 
-from app.models import CaseStudy, IndustrySolution, Service
+from app.models import CaseStudy, IndustrySolution, KnowledgeEntry, Service
 
 
 def build_pramax_context(db: Session) -> str:
     services = db.query(Service).all()
     industry_solutions = db.query(IndustrySolution).all()
     case_studies = db.query(CaseStudy).all()
+    knowledge_entries = db.query(KnowledgeEntry).all()
 
     service_text = "\n".join(
         f"- {service.title}: {service.description}"
@@ -29,6 +30,11 @@ def build_pramax_context(db: Session) -> str:
         for item in case_studies
     ) or "No approved case studies are available."
 
+    knowledge_text = "\n".join(
+        f"- {item.trigger}: {item.response}"
+        for item in knowledge_entries
+    ) or "No approved knowledge entries are available."
+
     return f"""
 Approved Pramax services:
 {service_text}
@@ -38,6 +44,9 @@ Approved Pramax industry solutions:
 
 Approved Pramax case studies:
 {case_study_text}
+
+Approved Pramax knowledge base:
+{knowledge_text}
 """
 
 

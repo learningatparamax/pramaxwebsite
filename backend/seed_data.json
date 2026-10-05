@@ -1,0 +1,41 @@
+{
+  "_note": "Starter content taken from the text already in the frontend. Review and edit before going live. Re-running the seed skips entries whose title/trigger already exists.",
+  "services": [
+    {
+      "title": "Intelligent Automation",
+      "category": "AI & Automation",
+      "description": "Intelligent Automation frameworks that combine custom LLM pipelines with automated process triggers to optimize compute runtime and reduce operational processing costs."
+    },
+    {
+      "title": "Microsoft Fabric Implementation",
+      "category": "Data & Analytics",
+      "description": "Enterprise Microsoft Fabric implementations that build multi-tier unified data pipelines, consolidating fragmented business applications onto central real-time dashboards."
+    },
+    {
+      "title": "Data Governance",
+      "category": "Data & Analytics",
+      "description": "Comprehensive data governance programs that secure compliance requirements, set automated guardrails across models and protect customer identities."
+    },
+    {
+      "title": "Cloud Migration & Modernization",
+      "category": "Cloud",
+      "description": "Full-cycle multi-cloud modernization covering risk-mitigated database lift-and-shift, custom API development and container refactoring of distributed systems."
+    }
+  ],
+  "industry_solutions": [
+    {
+      "industry": "Utilities",
+      "title": "SCADA Telemetry Analytics",
+      "description": "Integrating SCADA telemetry with Azure analytics tools to analyze data streams and flag risk points automatically."
+    }
+  ],
+  "case_studies": [],
+  "knowledge_entries": [
+    { "trigger": "costs", "response": "Pramax's Intelligent Automation frameworks combine custom LLM pipelines with automated process triggers to systematically optimize compute runtime loops, reducing processing operational costs by up to 34%." },
+    { "trigger": "azure fabric", "response": "Pramax drives enterprise Azure Fabric implementation maps by constructing multi-tier unified infrastructure pipelines, seamlessly consolidating fragmented business application pools onto central real-time tracking dashboards." },
+    { "trigger": "governance", "response": "Implementing comprehensive Data Governance matrices secures critical institutional compliance parameters, sets automated tracking guardrails across model nodes, and protects localized customer identities." },
+    { "trigger": "roadmap", "response": "Pramax proposes a multi-tier AI adoption framework roadmap: 1. Core structural environment evaluation, 2. Pilot deployment of internal vector storage clusters, 3. Scale deployment across transactional pipeline endpoints." },
+    { "trigger": "utility", "response": "For the Utility infrastructure sector, we maintain dedicated success cases integrating SCADA telemetry arrays with Azure tracking tools to analyze data streams and flag risk points automatically." },
+    { "trigger": "cloud migration", "response": "Pramax offers full-cycle multi-cloud modernization blueprints, specializing in risk-mitigated database lift-and-shifts, custom API development, and distributed system container refactoring patterns." }
+  ]
+}

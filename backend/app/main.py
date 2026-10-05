@@ -1,27 +1,53 @@
-from fastapi.middleware.cors import CORSMiddleware
+import os
+from contextlib import asynccontextmanager
+
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
-from app.database import Base, SessionLocal, engine
-from app.models import CaseStudy, IndustrySolution, Lead, Service
 from sqlalchemy.orm import Session
-from app.database import Base, SessionLocal, engine
-from app.schemas import CaseStudyCreate, ChatRequest, IndustrySolutionCreate, LeadCreate, ServiceCreate
+
+from app.database import Base, engine, get_db
 from app.grok_service import ask_grok
+from app.models import CaseStudy, IndustrySolution, KnowledgeEntry, Lead, Service
+from app.schemas import (
+    CaseStudyCreate,
+    ChatRequest,
+    IndustrySolutionCreate,
+    KnowledgeEntryCreate,
+    LeadCreate,
+    ServiceCreate,
+)
 from app.security import require_admin
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    # Create any missing tables on startup (works for SQLite and PostgreSQL).
+    Base.metadata.create_all(bind=engine)
+    yield
+
 
 app = FastAPI(
     title="Pramax Backend API",
-    version="1.0.0"
-)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["GET", "POST"],
-    allow_headers=["*"],
+    version="1.0.0",
+    lifespan=lifespan,
 )
 
-Base.metadata.create_all(bind=engine)
+# Comma-separated list of origins allowed to call the API from a browser,
+# e.g. "https://www.pramax.com,https://pramax.com". Defaults to local dev.
+ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv("ALLOWED_ORIGINS", "http://localhost:3000").split(",")
+    if origin.strip()
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ALLOWED_ORIGINS,
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Content-Type", "X-Admin-Key"],
+)
 
 @app.get("/")
 def home():
@@ -37,14 +63,6 @@ def database_health():
         connection.execute(text("SELECT 1"))
 
     return {"database": "connected"}
-
-def get_db():
-    db = SessionLocal()
-
-    try:
-        yield db
-    finally:
-        db.close()
 
 
 @app.post("/api/leads", status_code=201)
@@ -328,4 +346,57 @@ def delete_case_study(
         )
 
     db.delete(case_study)
+    db.commit()
+
+
+@app.get("/api/knowledge", dependencies=[Depends(require_admin)])
+def get_all_knowledge_entries(db: Session = Depends(get_db)):
+    entries = (
+        db.query(KnowledgeEntry)
+        .order_by(KnowledgeEntry.created_at.desc())
+        .all()
+    )
+
+    return [
+        {
+            "id": entry.id,
+            "trigger": entry.trigger,
+            "response": entry.response,
+            "created_at": entry.created_at
+        }
+        for entry in entries
+    ]
+
+
+@app.post("/api/knowledge", status_code=201, dependencies=[Depends(require_admin)])
+def create_knowledge_entry(
+    entry_data: KnowledgeEntryCreate,
+    db: Session = Depends(get_db)
+):
+    entry = KnowledgeEntry(**entry_data.model_dump())
+
+    db.add(entry)
+    db.commit()
+    db.refresh(entry)
+
+    return {
+        "message": "Knowledge entry created successfully",
+        "knowledge_entry_id": entry.id
+    }
+
+
+@app.delete("/api/knowledge/{entry_id}", status_code=204, dependencies=[Depends(require_admin)])
+def delete_knowledge_entry(
+    entry_id: int,
+    db: Session = Depends(get_db)
+):
+    entry = db.get(KnowledgeEntry, entry_id)
+
+    if not entry:
+        raise HTTPException(
+            status_code=404,
+            detail="Knowledge entry not found"
+        )
+
+    db.delete(entry)
     db.commit()

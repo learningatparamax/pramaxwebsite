@@ -30,3 +30,7 @@ class CaseStudyCreate(BaseModel):
 
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1, max_length=2000)
+
+class KnowledgeEntryCreate(BaseModel):
+    trigger: str = Field(min_length=2, max_length=150)
+    response: str = Field(min_length=10, max_length=5000)

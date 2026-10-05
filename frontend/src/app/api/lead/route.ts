@@ -24,6 +24,15 @@ export async function POST(request: Request) {
 
     const data = await backendResponse.json();
 
+    // FastAPI returns validation problems as { detail: [...] }; give the
+    // page a readable message in the "error" field it displays.
+    if (backendResponse.status === 422) {
+      return NextResponse.json(
+        { error: "Please check your name and email and try again." },
+        { status: 422 }
+      );
+    }
+
     return NextResponse.json(data, {
       status: backendResponse.status
     });

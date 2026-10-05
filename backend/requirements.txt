@@ -1,9 +1,7 @@
-fastapi
-uvicorn[standard]
-fastapi
-uvicorn[standard]
-sqlalchemy
-psycopg[binary]
-python-dotenv
-email-validator
-openai
+fastapi>=0.115,<1.0
+uvicorn[standard]>=0.30
+sqlalchemy>=2.0,<2.1
+psycopg[binary]>=3.2
+python-dotenv>=1.0
+email-validator>=2.1
+openai>=1.40
