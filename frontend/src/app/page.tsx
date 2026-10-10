@@ -99,18 +99,18 @@ useEffect(() => {
   loadCaseStudies().catch(console.error);
 }, []);
 
-  // Helper: Scroll to a specific section ID on the page
+  // Helper: Scroll to a specific section ID on the page. The scroll waits for
+  // the tab switch / mobile menu close to render, otherwise the target position
+  // is measured with the old layout and the page lands in the wrong place.
   const scrollToSection = (id: string) => {
+    setMobileMenuOpen(false);
     if (currentTab !== "site") {
       setCurrentTab("site");
-      setTimeout(() => {
-        const el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
-      }, 100);
-    } else {
+    }
+    setTimeout(() => {
       const el = document.getElementById(id);
       if (el) el.scrollIntoView({ behavior: "smooth" });
-    }
+    }, 100);
   };
 
   // Submit chat query
@@ -142,7 +142,7 @@ useEffect(() => {
         ...prev,
         {
           sender: "ai",
-          text: "Our assistant is unavailable right now. Please click the Human Help button on the bottom left corner and a Pramax consultant will get back to you."
+          text: "Our assistant is unavailable right now. Please click the Connect with human help button at the bottom right and a Pramax consultant will get back to you."
         }
       ]);
     } finally {
@@ -215,7 +215,7 @@ useEffect(() => {
   };
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen bg-white overflow-x-clip">
       {/* Subtle Ambient Background Glow Blobs */}
       <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100 rounded-full blur-[120px] pointer-events-none opacity-70"></div>
       <div className="absolute top-[60rem] right-1/4 w-[35rem] h-[35rem] bg-blue-50 rounded-full blur-[160px] pointer-events-none opacity-60"></div>
@@ -283,37 +283,25 @@ useEffect(() => {
         {mobileMenuOpen && (
           <div className="md:hidden bg-white border-b border-gray-200 px-4 pt-2 pb-4 space-y-2">
             <button
-              onClick={() => {
-                scrollToSection("home-section");
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => scrollToSection("home-section")}
               className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-100"
             >
               Home Overview
             </button>
             <button
-              onClick={() => {
-                scrollToSection("services-section");
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => scrollToSection("services-section")}
               className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-100"
             >
               Services & Solutions
             </button>
             <button
-              onClick={() => {
-                scrollToSection("industries-section");
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => scrollToSection("industries-section")}
               className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-100"
             >
               Industry Solutions
             </button>
             <button
-              onClick={() => {
-                scrollToSection("cases-section");
-                setMobileMenuOpen(false);
-              }}
+              onClick={() => scrollToSection("cases-section")}
               className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-black hover:bg-gray-100"
             >
               Case Studies
@@ -753,7 +741,7 @@ useEffect(() => {
                   <button 
                     onClick={() => {
                       setFormStatus("idle");
-                      setCurrentTab("site");
+                      scrollToSection("home-section");
                     }} 
                     className="mt-6 text-xs text-blue-600 font-semibold hover:underline"
                   >
