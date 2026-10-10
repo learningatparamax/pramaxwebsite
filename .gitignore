@@ -148,3 +148,28 @@ backend/*.db-journal
 
 # Python virtual environments
 .venv/
+
+# Python bytecode, caches and build output
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+venv/
+env/
+
+# macOS
+.DS_Store
+._*
+
+# Editors / IDEs
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# Claude Code local settings
+.claude/settings.local.json

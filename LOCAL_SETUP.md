@@ -9,6 +9,10 @@ The same code runs on both — only `DATABASE_URL` changes. See [DEPLOYMENT.md](
 - Node.js 18+ (`node -v`)
 - Python 3.10+ (`python3 --version`)
 
+> **macOS note:** the built-in `/usr/bin/python3` is 3.9 and is too old. If you installed Python and
+> Node with Homebrew, put Homebrew first on your PATH (one time):
+> `echo 'export PATH="/opt/homebrew/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc`
+
 ## 1. Backend (terminal 1)
 ```bash
 cd backend
