@@ -86,9 +86,7 @@ When you run the development server, if the backend APIs are not customized, the
      ```
    - **Backend Task**: Connect your database model client (e.g., Prisma, Mongoose, Knex) and save the lead requirements.
 
-3. **Knowledge Base Node Hook (`src/app/api/admin/route.ts`)**:
-   - The frontend sends a `POST` request to `/api/admin` with:
-     ```json
-     { "trigger": "keyword", "response": "answer text" }
-     ```
-   - **Backend Task**: Insert the new knowledge base entry, convert the text response into a vector embedding, and save it in your Vector DB so it can be scanned for semantic similarity during user questions.
+3. **Admin Proxy (`src/app/api/admin/[...path]/route.ts`)**:
+   - The admin screen at `/admin` calls `/api/admin/<resource>[/<id>]` with an `X-Admin-Key` header.
+   - The proxy forwards `GET`, `POST`, `PUT` and `DELETE` to the backend's `/api/<resource>[/<id>]`
+     for `leads`, `services`, `industry-solutions`, `case-studies` and `knowledge`; the backend checks the key.

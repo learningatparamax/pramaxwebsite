@@ -35,6 +35,9 @@ npm run dev
 Open http://localhost:3000
 
 ## Managing content
+- Admin screen: open http://localhost:3000/admin and sign in with the backend's `ADMIN_API_KEY`.
+  It lists leads and lets you add, edit and delete services, industry solutions, case studies
+  and chat knowledge entries.
 - Bulk: edit `backend/seed_data.json` and re-run `python -m app.seed` (existing titles are skipped).
 - One at a time: via curl (or http://127.0.0.1:8000/docs) with the `X-Admin-Key` header:
 ```bash
@@ -42,5 +45,6 @@ curl -X POST http://127.0.0.1:8000/api/services \
   -H "Content-Type: application/json" -H "X-Admin-Key: <ADMIN_API_KEY>" \
   -d '{"title":"Data Engineering","category":"Data","description":"Modern data platforms on Microsoft Fabric."}'
 ```
-- Chat knowledge base: `POST /api/knowledge` (admin) with `{"trigger": "...", "response": "..."}`,
-  or via the frontend at `POST /api/admin` with the same `X-Admin-Key` header.
+- Chat knowledge base: `POST /api/knowledge` (admin) with `{"trigger": "...", "response": "..."}`.
+  The frontend proxies every admin endpoint at `/api/admin/<resource>[/<id>]` with the same
+  `X-Admin-Key` header.
