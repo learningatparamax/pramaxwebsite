@@ -25,6 +25,13 @@ export async function POST(request: Request) {
 
     const data = await backendResponse.json();
 
+    if (!backendResponse.ok) {
+      return NextResponse.json(
+        { error: typeof data.detail === "string" ? data.detail : "Chat request failed" },
+        { status: backendResponse.status }
+      );
+    }
+
     return NextResponse.json(
       { response: data.response },
       { status: backendResponse.status }

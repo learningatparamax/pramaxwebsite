@@ -7,10 +7,6 @@ interface Message {
   text: string;
 }
 
-interface KnowledgeNode {
-  trigger: string;
-  response: string;
-}
 interface Service {
   id: number;
   title: string;
@@ -42,16 +38,6 @@ export default function Home() {
   const [formSubject, setFormSubject] = useState("");
   const [formStatus, setFormStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null); 
-
-  // RAG / Knowledge Base dictionary state
-  const [knowledgeBase] = useState<KnowledgeNode[]>([
-    { trigger: "costs", response: "Pramax's Intelligent Automation frameworks combine custom LLM pipelines with automated process triggers to systematically optimize compute runtime loops, reducing processing operational costs by up to 34%." },
-    { trigger: "azure fabric", response: "Pramax drives enterprise Azure Fabric implementation maps by constructing multi-tier unified infrastructure pipelines, seamlessly consolidating fragmented business application pools onto central real-time tracking dashboards." },
-    { trigger: "governance", response: "Implementing comprehensive Data Governance matrices secures critical institutional compliance parameters, sets automated tracking guardrails across model nodes, and protects localized customer identities." },
-    { trigger: "roadmap", response: "Pramax proposes a multi-tier AI adoption framework roadmap: 1. Core structural environment evaluation, 2. Pilot deployment of internal vector storage clusters, 3. Scale deployment across transactional pipeline endpoints." },
-    { trigger: "utility", response: "For the Utility infrastructure sector, we maintain dedicated success cases integrating SCADA telemetry arrays with Azure tracking tools to analyze data streams and flag risk points automatically." },
-    { trigger: "cloud migration", response: "Pramax offers full-cycle multi-cloud modernization blueprints, specializing in risk-mitigated database lift-and-shifts, custom API development, and distributed system container refactoring patterns." }
-  ]);
 
   // AI Chatbox Session state
   const [chatOpen, setChatOpen] = useState(false);
@@ -140,28 +126,25 @@ useEffect(() => {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text, knowledgeBase })
+        body: JSON.stringify({ message: text })
       });
 
       if (res.ok) {
         const data = await res.json();
         setChatMessages((prev) => [...prev, { sender: "ai", text: data.response }]);
       } else {
-        throw new Error("Local API fallback");
+        throw new Error(`Chat request failed: ${res.status}`);
       }
     } catch (e) {
-      setTimeout(() => {
-        const lowerText = text.toLowerCase();
-        const matchedNode = knowledgeBase.find((node) =>
-          lowerText.includes(node.trigger.toLowerCase())
-        );
-
-        const reply = matchedNode
-          ? matchedNode.response
-          : "Pramax's support engineers are standing by. We have logged this query. If you need urgent assistance, please click the Human Help button on the bottom left corner.";
-
-        setChatMessages((prev) => [...prev, { sender: "ai", text: reply }]);
-      }, 500);
+      // Never improvise company claims here; only the backend assistant may
+      // answer from approved content.
+      setChatMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "Our assistant is unavailable right now. Please click the Human Help button on the bottom left corner and a Pramax consultant will get back to you."
+        }
+      ]);
     } finally {
       setIsTyping(false);
     }

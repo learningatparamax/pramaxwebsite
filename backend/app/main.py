@@ -210,12 +210,13 @@ def chat_with_pramax(
             "response": response
         }
     except Exception as error:
+        # Log the details server-side only; visitors get a generic message.
         print(f"Grok request error: {type(error).__name__}: {error}")
 
         raise HTTPException(
-    status_code=502,
-    detail=f"Grok error: {type(error).__name__}: {error}"
-)
+            status_code=502,
+            detail="The assistant is temporarily unavailable."
+        )
 
 @app.put("/api/services/{service_id}", dependencies=[Depends(require_admin)])
 def update_service(
