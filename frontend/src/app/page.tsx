@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface Message {
   sender: "user" | "ai";
@@ -46,6 +46,13 @@ export default function Home() {
     { sender: "ai", text: "Hello! How can I help you discover Pramax’s services today?" }
   ]);
   const [isTyping, setIsTyping] = useState(false);
+  const chatListRef = useRef<HTMLDivElement>(null);
+
+  // Keep the newest chat message in view.
+  useEffect(() => {
+    const list = chatListRef.current;
+    if (list) list.scrollTo({ top: list.scrollHeight, behavior: "smooth" });
+  }, [chatMessages, isTyping]);
 
   const [services, setServices] = useState<Service[]>([]);
 
@@ -150,8 +157,11 @@ useEffect(() => {
     }
   };
 
+  // Quick replies can be triggered from sections far below the chat, so bring
+  // the chat into view to show the answer.
   const handleQuickReply = (promptText: string) => {
     setChatOpen(true);
+    scrollToSection("ai-chat-anchor");
     handleChatSubmit(promptText);
   };
 
@@ -373,7 +383,7 @@ useEffect(() => {
                           </button>
                         </div>
                       </div>
-                      <div className="max-h-60 overflow-y-auto space-y-3 pr-2 scrollbar-thin">
+                      <div ref={chatListRef} className="max-h-60 overflow-y-auto space-y-3 pr-2 scrollbar-thin">
                         {chatMessages.map((msg, index) => (
                           <div key={index} className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}>
                             <div
