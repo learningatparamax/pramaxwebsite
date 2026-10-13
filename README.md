@@ -65,6 +65,6 @@ after editing it; existing titles are skipped.
 
 ## Branches and deployment
 
-`dev` → `uat` → `main`, each deployed to its own environment. The backend deploys to Render
-([`render.yaml`](render.yaml)), the frontend to Vercel, and the database to Neon.
+`dev` → `uat` → `main`. Pushing to `main` deploys the frontend and backend to Azure App Service
+([`.github/workflows/deploy-azure.yml`](.github/workflows/deploy-azure.yml)); the database runs on Neon.
 See [DEPLOYMENT.md](DEPLOYMENT.md).

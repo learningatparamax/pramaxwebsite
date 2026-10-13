@@ -139,6 +139,13 @@ useEffect(() => {
       if (res.ok) {
         const data = await res.json();
         setChatMessages((prev) => [...prev, { sender: "ai", text: data.response }]);
+      } else if (res.status === 429) {
+        // Rate limited: show the backend's "slow down" / daily-limit message.
+        const data = await res.json().catch(() => ({}));
+        setChatMessages((prev) => [
+          ...prev,
+          { sender: "ai", text: data.error ?? "You're sending messages too quickly. Please wait a moment and try again." }
+        ]);
       } else {
         throw new Error(`Chat request failed: ${res.status}`);
       }

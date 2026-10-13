@@ -17,6 +17,7 @@ from app.schemas import (
     LeadCreate,
     ServiceCreate,
 )
+from app.rate_limit import chat_rate_limit
 from app.security import require_admin
 
 
@@ -198,7 +199,7 @@ def get_all_case_studies(db: Session = Depends(get_db)):
         }
         for case_study in case_studies
     ]
-@app.post("/api/chat")
+@app.post("/api/chat", dependencies=[Depends(chat_rate_limit)])
 def chat_with_pramax(
     chat_request: ChatRequest,
     db: Session = Depends(get_db)
