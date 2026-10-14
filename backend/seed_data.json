@@ -1,5 +1,5 @@
 {
-  "_note": "Starter content taken from the text already in the frontend. Review and edit before going live. Re-running the seed skips entries whose title/trigger already exists.",
+  "_note": "Starter content. Review and edit before going live. Case studies are anonymized illustrations of Pramax's capability areas; confirm each one matches real engagement experience before publishing. Re-running the seed skips entries whose title/trigger already exists.",
   "services": [
     {
       "title": "Intelligent Automation",
@@ -29,13 +29,74 @@
       "description": "Integrating SCADA telemetry with Azure analytics tools to analyze data streams and flag risk points automatically."
     }
   ],
-  "case_studies": [],
+  "case_studies": [
+    {
+      "title": "Unified Plant Analytics on Microsoft Fabric",
+      "industry": "Manufacturing",
+      "challenge": "A multi-site manufacturer ran production, quality and finance reporting from separate ERP and MES systems plus hand-maintained spreadsheets. Each plant calculated KPIs differently, monthly reports took days to assemble, and leadership had no shared, current view of operations.",
+      "solution": "Pramax designed a Microsoft Fabric lakehouse using a bronze/silver/gold (medallion) structure. Data Factory pipelines ingest ERP and MES data on a schedule, standardized KPI definitions are agreed with plant leads and implemented once in a governed semantic model, and Power BI dashboards read from it in Direct Lake mode. Workspace roles separate engineering, analyst and viewer access.",
+      "outcome": "Plants now report from one agreed set of KPI definitions. Routine operational reports refresh automatically instead of being compiled by hand, and plant managers and leadership look at the same up-to-date figures."
+    },
+    {
+      "title": "Enterprise Data Governance with Microsoft Purview",
+      "industry": "Financial Services",
+      "challenge": "A regional financial services firm held customer data across core banking, CRM and analytics platforms. Ownership of key datasets was unclear, sensitive fields were not consistently identified, and preparing lineage evidence for audits and regulatory reports was slow and manual.",
+      "solution": "Pramax set up Microsoft Purview to scan and catalog the main data sources, applied sensitivity classifications to personal and financial data, and captured lineage from source systems through to regulatory reports. Alongside the tooling, Pramax helped define a data ownership and stewardship model, access policies for sensitive data, and data quality rules for critical reporting fields.",
+      "outcome": "Critical datasets have named owners, sensitive data is classified and access-controlled, and lineage for regulatory reporting can be shown from the catalog rather than rebuilt by hand. The governance foundation also gives the firm clear rules for which data may be used in future AI initiatives."
+    },
+    {
+      "title": "AI-Assisted Document Processing for Logistics Operations",
+      "industry": "Logistics",
+      "challenge": "A logistics provider's operations team keyed data from high volumes of invoices, bills of lading and delivery notes into its ERP by hand. Document layouts varied by carrier and supplier, backlogs built up at peak periods, and data entry errors caused billing disputes.",
+      "solution": "Pramax built an intelligent automation pipeline that combines document intelligence with an LLM-based extraction step to read varied layouts, then validates the results against business rules and ERP master data. Documents that pass validation are posted to the ERP through APIs; low-confidence or failed documents go to a review queue where staff correct them, and every step is logged for audit.",
+      "outcome": "Routine documents flow into the ERP without manual keying, so the team spends its time on exceptions rather than data entry. Validation before posting reduces avoidable errors, and the audit trail shows how each document was processed."
+    },
+    {
+      "title": "Phased Azure Modernization of Legacy Retail Platforms",
+      "industry": "Retail",
+      "challenge": "A retailer's order management and reporting ran on on-premises SQL Server databases and .NET applications approaching end of support. Infrastructure costs were rising, releases were manual and risky, and the business could not tolerate disruption during trading periods.",
+      "solution": "Pramax assessed the application estate and planned a phased migration in waves. Databases moved to Azure SQL Managed Instance, selected services were containerized and deployed to Azure Kubernetes Service, and new APIs decoupled the storefront from back-office systems. Each wave had automated CI/CD pipelines, rehearsed cut-overs and a documented rollback plan, scheduled outside peak trading.",
+      "outcome": "End-of-support infrastructure was retired wave by wave without moving cut-overs into trading peaks. Releases now go through automated pipelines, and the decoupled APIs give the retailer a cleaner base for further cloud and data work."
+    },
+    {
+      "title": "Real-Time SCADA Telemetry Analytics",
+      "industry": "Utilities",
+      "challenge": "A utility operator's SCADA telemetry sat in on-site historians that were hard to query across sites. Abnormal readings were usually noticed only after an alarm or a field report, and maintenance planning relied on fixed schedules rather than equipment condition.",
+      "solution": "Pramax streamed selected SCADA telemetry through a secured gateway into Azure Event Hubs and on into Microsoft Fabric Real-Time Intelligence. Engineers and Pramax defined anomaly rules and baselines per asset type, and operations dashboards show live readings, trends and flagged assets, with alerts routed to the responsible teams.",
+      "outcome": "Operators see cross-site telemetry in one place and are alerted to abnormal readings as they happen rather than after the fact. The historical data now available supports a move toward condition-based maintenance."
+    },
+    {
+      "title": "Secure Generative AI Knowledge Assistant",
+      "industry": "Professional Services",
+      "challenge": "A professional services firm's policies, methodologies and past project material were spread across SharePoint sites and file shares. Consultants spent significant time searching for the right document, and leadership would not allow a public AI tool near confidential client material.",
+      "solution": "Pramax delivered a retrieval-augmented generation (RAG) assistant on Azure OpenAI and Azure AI Search inside the firm's own Azure tenant. Retrieval respects existing document permissions, every answer cites its source documents, and guardrails keep the assistant to approved content. Pramax also set up an evaluation set of real questions to test answer quality before and after each change.",
+      "outcome": "Consultants get cited answers from the firm's own material in seconds instead of searching manually, and only see content they already have access to. The evaluation set gives the firm a repeatable way to check quality as the assistant is extended."
+    }
+  ],
   "knowledge_entries": [
-    { "trigger": "costs", "response": "Pramax's Intelligent Automation frameworks combine custom LLM pipelines with automated process triggers to systematically optimize compute runtime loops, reducing processing operational costs by up to 34%." },
-    { "trigger": "azure fabric", "response": "Pramax drives enterprise Azure Fabric implementation maps by constructing multi-tier unified infrastructure pipelines, seamlessly consolidating fragmented business application pools onto central real-time tracking dashboards." },
-    { "trigger": "governance", "response": "Implementing comprehensive Data Governance matrices secures critical institutional compliance parameters, sets automated tracking guardrails across model nodes, and protects localized customer identities." },
-    { "trigger": "roadmap", "response": "Pramax proposes a multi-tier AI adoption framework roadmap: 1. Core structural environment evaluation, 2. Pilot deployment of internal vector storage clusters, 3. Scale deployment across transactional pipeline endpoints." },
-    { "trigger": "utility", "response": "For the Utility infrastructure sector, we maintain dedicated success cases integrating SCADA telemetry arrays with Azure tracking tools to analyze data streams and flag risk points automatically." },
-    { "trigger": "cloud migration", "response": "Pramax offers full-cycle multi-cloud modernization blueprints, specializing in risk-mitigated database lift-and-shifts, custom API development, and distributed system container refactoring patterns." }
+    {
+      "trigger": "costs",
+      "response": "Pramax's Intelligent Automation frameworks combine custom LLM pipelines with automated process triggers to systematically optimize compute runtime loops, reducing processing operational costs by up to 34%."
+    },
+    {
+      "trigger": "azure fabric",
+      "response": "Pramax drives enterprise Azure Fabric implementation maps by constructing multi-tier unified infrastructure pipelines, seamlessly consolidating fragmented business application pools onto central real-time tracking dashboards."
+    },
+    {
+      "trigger": "governance",
+      "response": "Implementing comprehensive Data Governance matrices secures critical institutional compliance parameters, sets automated tracking guardrails across model nodes, and protects localized customer identities."
+    },
+    {
+      "trigger": "roadmap",
+      "response": "Pramax proposes a multi-tier AI adoption framework roadmap: 1. Core structural environment evaluation, 2. Pilot deployment of internal vector storage clusters, 3. Scale deployment across transactional pipeline endpoints."
+    },
+    {
+      "trigger": "utility",
+      "response": "For the Utility infrastructure sector, we maintain dedicated success cases integrating SCADA telemetry arrays with Azure tracking tools to analyze data streams and flag risk points automatically."
+    },
+    {
+      "trigger": "cloud migration",
+      "response": "Pramax offers full-cycle multi-cloud modernization blueprints, specializing in risk-mitigated database lift-and-shifts, custom API development, and distributed system container refactoring patterns."
+    }
   ]
 }
